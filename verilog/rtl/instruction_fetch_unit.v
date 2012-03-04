@@ -155,17 +155,17 @@ module instruction_fetch_unit(
 		.sel(push_nop));
 
 `ifdef LATCH_IFU_OUTPUTS
-	dff #(32) pc_ff(.q(pc_o),
+	_dff #(32) pc_ff(.q(pc_o),
 		.d(pc_plus_4),
 		.clock(clock_i),
 		.clken(pc_out_latch_enable));
 
-	dff bpff(.q(branch_predicted_o),
+	_dff bpff(.q(branch_predicted_o),
 		.d(branch_predicted & imem_data_ready_i & ~branch_mispredicted_i),
 		.clock(clock_i),
 		.clken(instruction_latch_enable));
 		
-	dff #(32) instruction_ff(.q(instruction_o),
+	_dff #(32) instruction_ff(.q(instruction_o),
 		.d(current_instruction),
 		.clock(clock_i),
 		.clken(instruction_latch_enable));

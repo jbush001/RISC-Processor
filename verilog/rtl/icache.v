@@ -72,11 +72,11 @@ module icache(
 	assign stb_o = cyc_o;
 	assign cache_load_needed = ~ready_o & read_enable_i;
 
-	dff #(TAG_BITS) load_tag_ff(.q(load_tag),
+	_dff #(TAG_BITS) load_tag_ff(.q(load_tag),
 		.d(requested_tag),
 		.clken(cache_load_needed && state == `STATE_IDLE),
 		.clock(clock_i));
-	dff #(LINE_BITS) load_line_ff(.q(load_line),
+	_dff #(LINE_BITS) load_line_ff(.q(load_line),
 		.d(requested_line),
 		.clken(cache_load_needed && state == `STATE_IDLE),
 		.clock(clock_i));

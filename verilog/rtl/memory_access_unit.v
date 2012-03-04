@@ -201,7 +201,7 @@ module memory_access_unit(
 		|| (~opcode_latched[5] && instruction_latched[25:21] == `PC_INDEX)	// arithmetic with PC as result
 		|| opcode_latched[5:1] == 5'b11001	// Call
 		|| (is_load && instruction_latched[25:21] == `PC_INDEX && dmem_data_ready_i));	// Load with PC as result
-	dff branch_mispredicted_ff(.q(branch_mispredicted_o),
+	_dff branch_mispredicted_ff(.q(branch_mispredicted_o),
 		.d((~branch_mispredicted_o & branch_mispredict_internal) | take_interrupt | is_rti),	
 		.clock(clock_i),
 		.clken((~stall_o & ~flush_i) | branch_mispredicted_o | take_interrupt | is_rti));
@@ -225,18 +225,18 @@ module memory_access_unit(
 		.in1(`NOP),
 		.sel(push_nop));
 
-	dff #(32) instruction_ff(.q(instruction_o),
+	_dff #(32) instruction_ff(.q(instruction_o),
 		.d(instruction_sel),
 		.clock(clock_i),
 		.clken(instruction_o_latch_enable));
 
-	dff #(32) pco_ff(.q(pc_o),
+	_dff #(32) pco_ff(.q(pc_o),
 		.d(pc_i),
 		.clock(clock_i),
 		.clken(~stall_o));
 
 	// Result output
-	dff #(32) result_off(.q(result_o),
+	_dff #(32) result_off(.q(result_o),
 		.d(mem_access_mux),
 		.clock(clock_i),
 		.clken(result_o_latch_enable));
@@ -299,12 +299,12 @@ module memory_access_unit(
 		.in2(0),
 		.sel(instruction_latched[17:16]));
 
-	dff #(32) instruction_ff1(.q(instruction_latched),
+	_dff #(32) instruction_ff1(.q(instruction_latched),
 		.d((stall_o || flush_i) ? `NOP : instruction_i),
 		.clock(clock_i),
 		.clken(~stall_o));
 
-	dff #(32) address_ff(.q(memory_address_latched),
+	_dff #(32) address_ff(.q(memory_address_latched),
 		.d(memory_access_address_i),
 		.clock(clock_i),
 		.clken(~stall_o));

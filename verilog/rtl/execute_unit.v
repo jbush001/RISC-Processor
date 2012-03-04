@@ -81,17 +81,17 @@ module execute_unit(
 
 	alu alu(alu_op, result_o, operand1_i, operand2_i);
 
-	dff #(32) pc_ff(.q(pc_o),
+	_dff #(32) pc_ff(.q(pc_o),
 		.d(pc_i),
 		.clock(clock_i),
 		.clken(pc_latch_enable));
 
-	dff bp_ff(.q(branch_predicted_o),
+	_dff bp_ff(.q(branch_predicted_o),
 		.d(branch_predicted_i & ~flush_i),
 		.clock(clock_i),
 		.clken(branch_predicted_latch_enable));
 	
-	dff #(32) store_value_ff(.q(store_value_o),
+	_dff #(32) store_value_ff(.q(store_value_o),
 		.d(store_value_i),
 		.clock(clock_i),
 		.clken(store_value_latch_enable));

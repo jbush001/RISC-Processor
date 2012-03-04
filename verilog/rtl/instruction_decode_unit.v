@@ -228,7 +228,7 @@ module instruction_decode_unit(
 		.sel2(op1_bypass2),
 		.sel3(op1_bypass3));
 	
-	dff #(32) operand1_reg(.q(operand1_o),
+	_dff #(32) operand1_reg(.q(operand1_o),
 		.d(operand1_is_zero ? 0 : operand1muxout),	// AND
 		.clock(clock_i),
 		.clken(operand_latch_enable));
@@ -247,7 +247,7 @@ module instruction_decode_unit(
 		.sel3(op2_bypass2),
 		.sel4(op2_bypass3));
 	
-	dff #(32) operand2_reg(.q(operand2_o),
+	_dff #(32) operand2_reg(.q(operand2_o),
 		.d(operand2_is_zero ? 0 : operand2muxout),	// AND
 		.clock(clock_i),
 		.clken(operand_latch_enable));	
@@ -264,13 +264,13 @@ module instruction_decode_unit(
 		.sel2(op3_bypass2),
 		.sel3(op3_bypass3));
 
-	dff #(32) operand3_reg(.q(operand3_o),
+	_dff #(32) operand3_reg(.q(operand3_o),
 		.d(operand3_is_zero ? 0 : operand3muxout),	// AND
 		.clock(clock_i),
 		.clken(operand_latch_enable));
 
 	// Latched outputs
-	dff #(32) pc_ff(.q(pc_o),
+	_dff #(32) pc_ff(.q(pc_o),
 		.d(pc_i),
 		.clock(clock_i),
 		.clken(pc_o_latch_enable));	// Be sure not to push PC if we are pushing NOP
@@ -280,12 +280,12 @@ module instruction_decode_unit(
 		.in1(`NOP),
 		.sel(next_instruction_latch_enable));
 
-	dff #(32) instruction_reg(.q(instruction_o),
+	_dff #(32) instruction_reg(.q(instruction_o),
 		.d(next_instr),
 		.clock(clock_i),
 		.clken(instruction_o_latch_enable));
 
-	dff predicted_ff(.q(branch_predicted_o),
+	_dff predicted_ff(.q(branch_predicted_o),
 		.d(branch_predicted_i & ~flush_i & ~load_interlock),	// Note: if we are putting a NOP, send non-predict bit
 		.clock(clock_i),
 		.clken(branch_predict_o_latch_enable));

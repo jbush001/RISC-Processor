@@ -140,17 +140,17 @@ module arbiter(
 	assign want_select_unit1 = cyc1_i & ~cyc0_i;
 	assign want_select_unit2 = cyc2_i & ~cyc1_i & ~cyc0_i;
 
-	dff unit0_ff(.q(unit0_selected),
+	_dff unit0_ff(.q(unit0_selected),
 		.d((~unit_selected & want_select_unit0) | (unit0_selected & cyc0_i)),
 		.clock(clock_i),
 		.clken(1));
 
-	dff unit1_ff(.q(unit1_selected),
+	_dff unit1_ff(.q(unit1_selected),
 		.d((~unit_selected & want_select_unit1) | (unit1_selected & cyc1_i)),
 		.clock(clock_i),
 		.clken(1));
 
-	dff unit2_ff(.q(unit2_selected),
+	_dff unit2_ff(.q(unit2_selected),
 		.d((~unit_selected & want_select_unit2) | (unit2_selected & cyc2_i)),
 		.clock(clock_i),
 		.clken(1));
