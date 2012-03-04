@@ -430,7 +430,7 @@ module mux7ps(
 	end
 endmodule
 
-// Without the underscore, conflicts with built-in Altera primitive.
+// Without the underscore, conflicts with built-in Altera primitive.	
 module _dff(
 	q,
 	d,
