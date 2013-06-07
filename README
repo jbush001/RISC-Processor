@@ -1,8 +1,6 @@
 This is the first processor I designed, a 5 stage MIPS-ish RISC.
-It features direct mapped L1 instruction and data caches, branch prediction,
-and register forwarding.
-I made a number of mistakes in this design.  
+It features direct mapped L1 instruction and data caches, branch prediction, and register forwarding.
+I made a number of mistakes in this design:
 - The contents of the data cache are modeled as having a single read/write port.  Because of the way tag lookup occurs, this means you can't have a write immediately after a read because there is contention for the port.  There is a bunch of logic in the issue stage to avoid this condition.
-- I made the design purely structural.  This makes the design harder to read, but I believe it also makes it harder for the synthesis tools to optimize, since my primitives didn't map well to the resources on the FPGA.
-- Many of my RAMs are modeled as async read (including the register file).  On Xilinx, this prevented using the built-in block RAM resources and used more area.  It also slows down the max clock rate. 
-- Overall style, using explicit names in sensitivity lists, declaring ports multiple times, etc.   The latest version of iverilog currently won't compile it because of missing port width declarations.
+- I made the design purely structural, which was unnecessary and harder to read.
+- Many of my RAMs are modeled as async read (including the register file).  This prevents using the built-in block RAM resources, using more area, and slows down the max clock rate. 
